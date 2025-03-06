@@ -12,8 +12,8 @@ This project is a simple model for recognizing characters in mathematical equati
 3. The developed model recognizes the separated characters.
 
 ## Sample Images
-![Sample Image 1](img/1.png)  
-![Sample Image 2](img/2.png)  
+![Sample Image 1](img/1.PNG)  
+![Sample Image 2](img/2.PNG)  
 
 ## Requirements
 - Python 3.x
