@@ -1,0 +1,3 @@
+-r requirements.txt
+nbconvert>=7,<8
+ipykernel>=6,<8

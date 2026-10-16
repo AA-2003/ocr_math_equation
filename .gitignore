@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.env
+.env.*
+!.env.example
+models/
+*.pth
+*.pth.tmp
+reports/
+local_backups/
+augmented_ocr/
+ocr_data.csv
+train_ocr/*.zip
