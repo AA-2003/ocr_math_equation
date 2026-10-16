@@ -2,6 +2,10 @@
 
 Recognize symbols in a one-line arithmetic expression and evaluate it. Includes a separate handwritten/printed classifier and the original image datasets.
 
+## Competition
+
+This project was developed for the [UT AI Hackathon](https://quera.org/events/ut-ai-0312). Our team qualified through the first stage and finished **5th out of 20 teams** in the second stage.
+
 ## Setup
 
 Python 3.11 or 3.12:
