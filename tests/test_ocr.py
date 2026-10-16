@@ -105,6 +105,17 @@ class TrainingTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 symbol_records(folder)
 
+    def test_symbol_dataset_accepts_uppercase_and_lowercase_png(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            for label in SYMBOLS:
+                (root / label).mkdir()
+                for name in ("1.PNG", "2.png"):
+                    equation_image().save(root / label / name)
+            records = symbol_records(root)
+            self.assertEqual(len(records), 32)
+            self.assertEqual({label for _, label in records}, set(range(16)))
+
     def test_ocr_training_and_checkpoint_roundtrip(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder)
@@ -155,7 +166,7 @@ class PredictionTests(unittest.TestCase):
     def test_csv_keeps_filenames_and_existing_results(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            for name in ("10.png", "2.png"):
+            for name in ("10.png", "2.PNG"):
                 equation_image().save(root / name)
             output = root / "predictions.csv"
             checkpoint = root / "ocr.pth"
@@ -165,7 +176,7 @@ class PredictionTests(unittest.TestCase):
                 self.assertEqual(predict_folder(root, output, checkpoint), 2)
             with output.open(newline="", encoding="utf-8") as stream:
                 rows = list(csv.DictReader(stream))
-            self.assertEqual([row["path"] for row in rows], ["2.png", "10.png"])
+            self.assertEqual([row["path"] for row in rows], ["2.PNG", "10.png"])
             original = output.read_bytes()
             with self.assertRaises(FileExistsError):
                 predict_folder(root, output, checkpoint)

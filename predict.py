@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 
-from image_processing import handwriting_tensor, open_image
+from image_processing import handwriting_tensor, open_image, png_paths
 from models import load_checkpoint
 from recognition import recognize
 
@@ -15,7 +15,7 @@ def predict_folder(folder, output, ocr_checkpoint, handwriting_checkpoint=None, 
     folder, output = Path(folder), Path(output)
     if output.exists():
         raise FileExistsError(f"Output already exists: {output}")
-    images = sorted(folder.glob("*.png"), key=lambda path: (
+    images = sorted(png_paths(folder), key=lambda path: (
         0, int(path.stem)) if path.stem.isdigit() else (1, path.name))
     if not images:
         raise ValueError(f"No PNG images found in {folder}")

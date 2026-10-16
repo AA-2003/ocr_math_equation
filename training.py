@@ -8,7 +8,7 @@ from PIL import ImageEnhance, ImageFilter
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
-from image_processing import handwriting_tensor, open_image, symbol_tensor
+from image_processing import handwriting_tensor, open_image, png_paths, symbol_tensor
 from models import ComplexNet, OCR_CNN, SYMBOLS, save_checkpoint
 
 
@@ -19,8 +19,13 @@ def symbol_records(folder):
     classes = sorted(path.name for path in folder.iterdir() if path.is_dir())
     if classes != list(SYMBOLS):
         raise ValueError(f"Expected these symbol folders: {', '.join(SYMBOLS)}")
-    return [(path, index) for index, label in enumerate(SYMBOLS)
-            for path in sorted((folder / label).glob("*.png"))]
+    records = []
+    for index, label in enumerate(SYMBOLS):
+        paths = png_paths(folder / label)
+        if len(paths) < 2:
+            raise ValueError(f"Class {label} needs at least two PNG images.")
+        records.extend((path, index) for path in paths)
+    return records
 
 
 def handwriting_records(folder, metadata):

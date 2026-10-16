@@ -6,6 +6,11 @@ import torch
 from PIL import Image, ImageDraw, ImageOps
 
 
+def png_paths(folder):
+    return sorted(path for path in Path(folder).iterdir()
+                  if path.is_file() and path.suffix.lower() == ".png")
+
+
 def open_image(path):
     with Image.open(path) as image:
         return image.copy()
